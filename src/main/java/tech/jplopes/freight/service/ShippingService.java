@@ -1,19 +1,22 @@
 package tech.jplopes.freight.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import tech.jplopes.freight.domain.ExpressShippingCalculator;
+import tech.jplopes.freight.domain.ShippingCalculator;
 import tech.jplopes.freight.domain.StandardShippingCalculator;
 
 @Service
 public class ShippingService {
 
 
-    private final StandardShippingCalculator standardShippingCalculator;
-    private final ExpressShippingCalculator expressShippingCalculator;
+    private final ShippingCalculator standardCalculator;
+    private final ShippingCalculator expressCalculator;
 
-    public ShippingService(StandardShippingCalculator standardShippingCalculator, ExpressShippingCalculator expressShippingCalculator) {
-        this.standardShippingCalculator = standardShippingCalculator;
-        this.expressShippingCalculator = expressShippingCalculator;
+
+    public ShippingService(@Qualifier("standardShippingCalculator") ShippingCalculator standardCalculator, @Qualifier("expressShippingCalculator") ShippingCalculator expressCalculator) {
+        this.standardCalculator = standardCalculator;
+        this.expressCalculator = expressCalculator;
     }
 
     public Double calculate(String shippingType,
@@ -21,9 +24,9 @@ public class ShippingService {
                             Double weight){
 
         if (shippingType.equalsIgnoreCase("standard")){
-            return standardShippingCalculator.calculate(distance,weight);
+            return standardCalculator.calculate(distance,weight);
         }else if(shippingType.equalsIgnoreCase("express")) {
-            return expressShippingCalculator.calculate(distance, weight);
+            return expressCalculator.calculate(distance, weight);
         }
 
         return null;

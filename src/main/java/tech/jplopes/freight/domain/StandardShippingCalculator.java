@@ -1,8 +1,9 @@
 package tech.jplopes.freight.domain;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "standardShippingCalculator")
 public class StandardShippingCalculator implements ShippingCalculator {
 
     @Override
