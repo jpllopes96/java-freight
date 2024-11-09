@@ -11,8 +11,12 @@ import tech.jplopes.freight.service.ShippingService;
 @RestController
 public class ShippingController {
 
-    @Autowired
-    private ShippingService shippingService;
+
+    private final ShippingService shippingService;
+
+    public ShippingController(ShippingService shippingService) {
+        this.shippingService = shippingService;
+    }
 
     @GetMapping(value = "/shipping/calculate")
     public ResponseEntity<ShippingResponse> calculate(@RequestParam("type") String shippingType,
